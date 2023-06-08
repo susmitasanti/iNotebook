@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const { validationResult, body } = require('express-validator');
+const bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
+
+const JWT_SECRET="Sushh@2004";
+
+
 
 //Create a User using: POST "/api/auth/createUser". No login required 
 // router.post('/',query('person').notEmpty(), (req, res) =>{
@@ -18,6 +24,7 @@ const { validationResult, body } = require('express-validator');
 
 // })
 
+//ROUTE 1 : Create a User using: POST "/api/auth/createUser". No login required 
 router.post('/createUser', [
     body('name', "Enter a valid Name").notEmpty(),
     body('email', "Enter a valid EmailId").notEmpty().isEmail(),
@@ -30,9 +37,13 @@ router.post('/createUser', [
         // user.save()
         // console.log(req.body)
 
-        //Yaha we used try catch because incase in future, any error occurs(u neve know), tho bhi there is a mechanism to display the error nicely.
+        //Yaha we used try catch because incase in future, any error occurs(u never know), tho bhi there is a mechanism to display the error nicely.
 
         try {
+
+            const salt = bcrypt.genSaltSync(10);
+            const secPass = bcrypt.hashSync(req.body.password, salt); 
+
             //This line checks if the user alreadys exists in the database
             let user = await User.findOne({ email: req.body.email });
             if (user) {
@@ -44,10 +55,15 @@ router.post('/createUser', [
                 user = await User.create({
                     name: req.body.name,
                     email: req.body.email,
-                    password: req.body.password,
+                    password: secPass,
                 })
 
-                res.json(user)
+                data={
+                    user: user.Id
+                };
+                const token = jwt.sign(data, JWT_SECRET);
+
+                res.json({authtoken: token})
             }
 
             //    .then(user => res.json(user))
@@ -58,7 +74,7 @@ router.post('/createUser', [
         } catch (error) 
         {
             console.log(error.message);
-            res.status(500).json({ error: "Some error occurred" })
+            res.status(500).send("Internal Server Error")
         }
     }
     else 
@@ -67,9 +83,60 @@ router.post('/createUser', [
 
     }
 }
+);
 
-)
+//ROUTE 2 : Login a User using: POST "/api/auth/login".
+router.post('/login', [
+    body('email', "Enter a valid EmailId").notEmpty().isEmail(),
+    body('password', "Enter your Password").notEmpty().isStrongPassword()
+], async (req, res) =>{
+    const result = validationResult(req);
+    if (result.isEmpty()) 
+    {
+    try
+        {
+            let user = await User.findOne({email:req.body.email})
+        if(user)
+        {
+            const passwordCompare = await bcrypt.compare(req.body.password, user.password);
+            if(passwordCompare)
+            {
+                data={
+                    user: user.Id
+                };
+                const token = jwt.sign(data, JWT_SECRET);
 
+                res.json({authtoken: token});
+            }
+            else
+            {
+                res.status(400).json({error:"Please enter correct credentials."});
 
+            }
+        }
+        else
+        {
+            res.status(400).json({error:"Please enter correct credentials."});
+        }
+        }
+        catch(error){
+            res.status(400).send("Internal Server Error.");
+        }
+    }
+    else 
+    {
+        res.send({ errors: result.array() });
+
+    }
+
+}
+);
+
+// ROUTE 3 : Get logged in user's details. Login required.
+try{
+
+}catch(error){
+    res.status(400).send("Internal Server Error.");
+}
 
 module.exports = router
