@@ -4,6 +4,7 @@ const User = require('../models/User');
 const { validationResult, body } = require('express-validator');
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
+const fetchuser=require("../middleware/fetchuser")
 
 const JWT_SECRET="Sushh@2004";
 
@@ -58,9 +59,11 @@ router.post('/createUser', [
                     password: secPass,
                 })
 
+                //This line will store user's id in object:data
                 data={
                     user: user.Id
                 };
+                //This creates a token for the user
                 const token = jwt.sign(data, JWT_SECRET);
 
                 res.json({authtoken: token})
@@ -95,15 +98,20 @@ router.post('/login', [
     {
     try
         {
+            //Checks if the user exists in the database
             let user = await User.findOne({email:req.body.email})
         if(user)
         {
+            //Compares the given password with the password in the database
             const passwordCompare = await bcrypt.compare(req.body.password, user.password);
+            //If password matches...
             if(passwordCompare)
             {
+                //stores user's id in the object:data
                 data={
-                    user: user.Id
+                    user: user._id
                 };
+                //creates the token
                 const token = jwt.sign(data, JWT_SECRET);
 
                 res.json({authtoken: token});
@@ -132,11 +140,21 @@ router.post('/login', [
 }
 );
 
-// ROUTE 3 : Get logged in user's details. Login required.
+//Now..after generating authoken for the logged in user..we will try to extract user's Id from the authtoken, using which we will fetch the user's data.
+
+// ROUTE 3 : Get logged in user's details. Login required. using POST "/api/auth/getUser".
+router.post('/getUser', fetchuser, async (req, res) =>{
 try{
+    userId=req.user;
+    const user = await User.findOne({_id:userId}).select("-password");
+    if(user){
+        res.send(user)
+    }
 
 }catch(error){
+    console.error(error.message)
     res.status(400).send("Internal Server Error.");
 }
-
+}
+);
 module.exports = router
