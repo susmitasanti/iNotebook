@@ -140,7 +140,7 @@ router.post('/login', [
 }
 );
 
-//Now..after generating authoken for the logged in user..we will try to extract user's Id from the authtoken, using which we will fetch the user's data.
+//Now..after generating authoken for the logged in user..we will try to extract user's Id from the authtoken(using fetchuser.js), using which we will fetch the user's data.
 
 // ROUTE 3 : Get logged in user's details. Login required. using POST "/api/auth/getUser".
 router.post('/getUser', fetchuser, async (req, res) =>{
