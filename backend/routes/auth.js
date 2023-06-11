@@ -47,6 +47,7 @@ router.post('/createUser', [
 
             //This line checks if the user alreadys exists in the database
             let user = await User.findOne({ email: req.body.email });
+
             if (user) {
                 //if user exists, it returns Bad Request and displays this error message.
                 return res.status(400).json({ error: "An user with this email already exists." })
@@ -85,8 +86,7 @@ router.post('/createUser', [
         res.send({ errors: result.array() });
 
     }
-}
-);
+});
 
 //ROUTE 2 : Login a User using: POST "/api/auth/login".
 router.post('/login', [
