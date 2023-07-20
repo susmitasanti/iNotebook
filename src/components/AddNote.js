@@ -4,7 +4,7 @@ import noteContext from '../context/notes/noteContext'
 
 function AddNote() {
   const context = useContext(noteContext)
-  const {addNote } = context
+  const {addNote} = context
 
   const [note, setNote] = useState({ title: "", description: "", tag: "" })
 
@@ -33,7 +33,7 @@ function AddNote() {
 
         <div className="mb-3">
           <label htmlFor="description" className="form-label" >Description</label>
-          <textarea className="form-control" id="description" rows="3" onChange={onChange} name="description"></textarea>
+          <textarea className="form-control" id="description" placeholder="Enter your Note's Description" rows="3" onChange={onChange} name="description"></textarea>
         </div>
 
         <button type="submit" className="btn btn-primary" onClick={handleClick}>Add</button><br />
