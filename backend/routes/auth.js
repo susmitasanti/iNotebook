@@ -32,6 +32,7 @@ router.post('/createUser', [
     body('password', "Enter a valid Password").notEmpty().isStrongPassword()
 ], async (req, res) => {
     const result = validationResult(req);
+    let success;
     if (result.isEmpty()) 
     {
         // const user = User(req.body);
@@ -113,22 +114,25 @@ router.post('/login', [
                 };
                 //creates the token
                 const token = jwt.sign(data, JWT_SECRET);
-
-                res.json({authtoken: token});
+                success=true;
+                res.json({success, authtoken: token});
             }
             else
             {
-                res.status(400).json({error:"Please enter correct credentials."});
+                success=false;
+                res.status(400).json({success, error:"Please enter correct credentials."});
 
             }
         }
         else
         {
-            res.status(400).json({error:"Please enter correct credentials."});
+            success=false;
+            res.status(400).json({success, error:"Please enter correct credentials."});
         }
         }
         catch(error){
-            res.status(400).send("Internal Server Error.");
+            success=false;
+            res.status(400).send(success, "Internal Server Error.");
         }
     }
     else 
