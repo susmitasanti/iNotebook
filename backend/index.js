@@ -11,7 +11,7 @@ app.use(express.json());
 //Available routes:
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/notes', require('./routes/notes'))
-app.get('/', (req, res) => {
+app.get('/login', (req, res) => {
   res.send('Hello Sushh!')
 })
 
