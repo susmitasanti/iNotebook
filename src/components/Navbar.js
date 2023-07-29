@@ -19,7 +19,7 @@ function Navbar() {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <nav className="navbar navbar-expand-lg bg-body-secondary">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">iNotebook</Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,9 +30,7 @@ function Navbar() {
               <li className="nav-item">
                 <Link className={`nav-link ${location.pathname === '/' ? 'active' : ""}`} aria-current="page" to="/">Home</Link>
               </li>
-              <li className="nav-item">
-                <Link className={`nav-link ${location.pathname === '/about' ? 'active' : ""}`} to="/about">About</Link>
-              </li>
+              
             </ul>
             
             {!(localStorage.getItem('token'))?

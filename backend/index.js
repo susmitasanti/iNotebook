@@ -11,10 +11,10 @@ app.use(express.json());
 //Available routes:
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/notes', require('./routes/notes'))
-app.get('/login', (req, res) => {
-  res.send('Hello Sushh!')
-})
+app.get('/', (req, res) => {
+res.redirect('/login')})
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
