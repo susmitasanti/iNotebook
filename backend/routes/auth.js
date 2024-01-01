@@ -24,6 +24,7 @@ const JWT_SECRET = "Sushh@2004";
 //     // console.log(req.body)
 
 // })
+let success;
 
 //ROUTE 1 : Create a User using: POST "/api/auth/createUser". No login required 
 router.post('/createUser', [
@@ -32,7 +33,6 @@ router.post('/createUser', [
     body('password', "Enter a valid Password").notEmpty().isStrongPassword()
 ], async (req, res) => {
     const result = validationResult(req);
-    let success;
     if (result.isEmpty()) {
         // const user = User(req.body);
         // user.save()
@@ -56,7 +56,7 @@ router.post('/createUser', [
             else {
                 success = true
                 //if user does not exist, it will create a new User
-                user = await User.create({
+                const user = await User.create({
                     name: req.body.name,
                     email: req.body.email,
                     password: secPass,
@@ -64,7 +64,7 @@ router.post('/createUser', [
 
 
                 //This line will store user's id in object:data
-                data = {
+                const data = {
                     user: user.Id
                 };
                 //This creates a token for the user
@@ -106,7 +106,7 @@ router.post('/login', [
                 //If password matches...
                 if (passwordCompare) {
                     //stores user's id in the object:data
-                    data = {
+                    const data = {
                         user: user._id
                     };
                     //creates the token
@@ -126,7 +126,7 @@ router.post('/login', [
         }
         catch (error) {
             success = false;
-            res.status(400).json({success, msg:"Internal Server Error."});
+            res.status(400).json({ success, msg: "Internal Server Error." });
         }
     }
     else {
@@ -142,7 +142,7 @@ router.post('/login', [
 // ROUTE 3 : Get logged in user's details. Login required. using POST "/api/auth/getUser".
 router.post('/getUser', fetchuser, async (req, res) => {
     try {
-        userId = req.user;
+        const userId = req.user;
         const user = await User.findOne({ _id: userId }).select("-password");
         if (user) {
             res.send(user)

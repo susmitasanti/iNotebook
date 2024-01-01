@@ -1,0 +1,88 @@
+body {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('../../public/images/login.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+}
+
+.form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-form {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+}
+
+
+.note-form{
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    
+}
+
+
+.auth-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #007bff; /* Colorful border */
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    border-color: #ff77cd; /* Change border color on focus */
+    outline: none;
+}
+
+.form-text {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+.btn-auth {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-auth:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+/* body {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('../../public/images/login.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+} */
+

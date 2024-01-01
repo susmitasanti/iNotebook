@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import "../css/Forms.css"
 
 function SignUp(props) {
 
@@ -39,8 +40,10 @@ function SignUp(props) {
     setCred({ ...cred, [event.target.name]: event.target.value })
   }
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="form-container">
+      <div className="auth-form">
+        <h2 className="auth-title">Sign Up</h2>
+        <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="exampleInputEmail1" className="form-label">Name</label>
           <input type="text" className="form-control" id="name" name="name" value={cred.name} onChange={onChange} aria-describedby="emailHelp" required/>
@@ -60,10 +63,11 @@ function SignUp(props) {
           <input type="password" className="form-control" id="cpassword" name="cpassword" value={cred.cpassword} onChange={onChange} minLength={5} required />
         </div>
 
-        <button type="submit" className="btn btn-primary" >Submit</button>
-      </form>
+        <button type="submit" className="btn-auth">Submit</button>
+        </form>
+      </div>
     </div>
   )
 }
 
-export default SignUp
+export default SignUp;
