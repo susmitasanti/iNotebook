@@ -26,7 +26,7 @@ function Login(props) {
 
         }
         else {
-            props.showAlert("danger", "Please enter valid credentials.")
+            props.showAlert("danger", json.error)
         }
     }
 

@@ -62,7 +62,6 @@ router.post('/createUser', [
                     password: secPass,
                 })
 
-
                 //This line will store user's id in object:data
                 const data = {
                     user: user.Id
@@ -85,8 +84,14 @@ router.post('/createUser', [
         }
     }
     else {
-        success = false
-        res.json({ success, errors: result.array() });
+        // If validation errors exist, return the errors
+      const errorMessages = result
+	  .array()
+	  .map((error) => error.msg)
+	  .join(", ");
+
+	success = false;
+	res.status(400).json({ success, error: errorMessages });
     }
 });
 
@@ -130,8 +135,14 @@ router.post('/login', [
         }
     }
     else {
-        success = false;
-        res.send({ errors: result.array() });
+          // If validation errors exist, return the errors
+      const errorMessages = result
+	  .array()
+	  .map((error) => error.msg)
+	  .join(", ");
+
+	success = false;
+	res.status(400).json({ success, error: errorMessages });
     }
 
 }

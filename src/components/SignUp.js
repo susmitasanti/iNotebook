@@ -27,7 +27,7 @@ function SignUp(props) {
       props.showAlert("success", "Account created successfully")
     }
     else{
-      props.showAlert("danger", "User Already Exists")
+      props.showAlert("danger", json.error)
     }
   }
   else{
